@@ -1,0 +1,19 @@
+<!--movies-->
+<div class="container mb-4">
+  <div class="movies-grid">
+    <% @movies.each do |movie| %>
+      <%= link_to movie_path(movie), class: "card-trip my-2 mx-2" do %>
+        <img src="<%= movie.poster_url %>">
+        <div class="card-trip-infos">
+          <div>
+            <h2><%= movie.title %></h2>
+            <p><%= truncate(movie.overview, length: 120) %></p>
+          </div>
+          <div class="card-trip-pricing">
+            <h2><%= movie.rating.round(1) %>/10</h2>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

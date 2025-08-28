@@ -1,0 +1,13 @@
+<!--header-->
+<div class="movie-header">
+  <img src="<%= @movie.poster_url %>"/>
+  <div class="movie-header-infos">
+    <div class="movie-header-top">
+      <h2 class="movie-header-title"><%= @movie.title %></h2>
+      <h2 class="movie-header-rating"><%= @movie.rating.round(1) %>/10</h2>
+    </div>
+    <div class="movie-header-overview">
+      <p><%= @movie.overview %></p>
+    </div>
+  </div>
+</div>
