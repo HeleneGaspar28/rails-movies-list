@@ -1,0 +1,15 @@
+<!--lists-->
+<div class="container mb-4">
+  <div class="lists-grid">
+    <% @lists.each do |list| %>
+      <%= link_to list_path(list), class: "card-trip my-2 mx-2" do %>
+        <div class="card-trip-infos">
+          <div>
+              <%= image_tag "movie-cut.jpg", alt: list.name, class: "list-image" %>
+            <h2><%= list.name %></h2>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

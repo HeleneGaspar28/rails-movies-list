@@ -1,0 +1,17 @@
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4 text-center">Add movie to <%= @list.name %></h2>
+
+  <%= simple_form_for [@list, @bookmark], html: { class: "card p-4 shadow-sm" } do |f| %>
+
+    <%= f.association :movie,
+          collection: Movie.order(:title),
+          label_method: :title,
+          value_method: :id,
+          prompt: "Select a movie",
+          input_html: { class: "form-select" } %>
+
+    <%= f.input :comment, as: :text, label: "Comment", input_html: { rows: 2, class: "form-control" } %>
+
+    <%= f.button :submit, "Add to List", class: "btn btn-primary mt-3" %>
+  <% end %>
+</div>

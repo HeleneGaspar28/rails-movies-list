@@ -12,6 +12,8 @@ require "json"
 
 puts "Cleaning database..."
 Movie.destroy_all
+List.destroy_all
+Bookmark.destroy_all
 
 # Top rated movies endpoint (proxy, no API key needed)
 url = "https://tmdb.lewagon.com/movie/top_rated"
@@ -22,15 +24,40 @@ data = JSON.parse(serialized)
 
 results = data["results"] || []
 
+# 1) Create movies (your existing TMDB code)
 puts "Creating movies..."
 results.each do |movie|
   Movie.create!(
     title:       movie["title"],
     overview:    movie["overview"],
     rating:      movie["vote_average"],
-    # Build poster URL from poster_path using TMDB image CDN (works with the proxy)
     poster_url:  "https://image.tmdb.org/t/p/w500#{movie['poster_path']}"
   )
 end
+puts "Movies: #{Movie.count}"
 
-puts "Done. Created #{Movie.count} movies."
+# 2) Create lists
+puts "Creating lists..."
+drama    = List.create!(name: "Drama")
+thriller = List.create!(name: "Thriller")
+comedy   = List.create!(name: "Comedy")
+lists = [drama, thriller, comedy]
+puts "Lists: #{List.count}"
+
+# 3) Create bookmarks (movies ↔ lists)
+puts "Creating bookmarks..."
+# ensure every list gets some movies
+lists.each do |list|
+  Movie.order("RANDOM()").limit(5).each do |movie|
+    Bookmark.create!(list: list, movie: movie, comment: "Such a good movie OMG!")
+  end
+end
+
+# optional: ensure every movie is in at least one list
+Movie.find_each do |movie|
+  next if movie.lists.exists?
+  Bookmark.create!(list: lists.sample, movie: movie, comment: "Auto-assign")
+end
+
+puts "Bookmarks: #{Bookmark.count}"
+puts "Done."

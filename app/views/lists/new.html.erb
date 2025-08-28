@@ -1,0 +1,14 @@
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4 text-center">Create new list</h2>
+
+  <%= simple_form_for @list, html: { class: "card p-4 shadow-sm" } do |f| %>
+    <div class="mb-3">
+      <%= f.input :name,
+                  label: "Name",
+                  input_html: { class: "form-control" },
+                  label_html: { class: "form-label" } %>
+    </div>
+
+    <%= f.button :submit, "Create List", class: "btn btn-primary" %>
+  <% end %>
+</div>

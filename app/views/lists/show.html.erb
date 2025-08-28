@@ -1,0 +1,35 @@
+<div class="list-header d-flex align-items-center">
+  <%= @list.name %>
+</div>
+
+<div class="container my-2">
+  <div class="text-end">
+    <%= link_to "+ add movie", new_list_bookmark_path(@list), class: "btn btn-primary" %>
+  </div>
+
+  <div class="bookmarks-grid">
+    <% @bookmarks.each do |bookmark| %>
+      <div class="position-relative"> <!-- wrapper for card + delete btn -->
+        <%= link_to movie_path(bookmark.movie_id), class: "card-trip my-2 mx-2 d-block d-flex flex-column h-100" do %>
+          <div class="card-trip-infos">
+            <div>
+              <h2><%= bookmark.movie.title %></h2>
+              <p><%= bookmark.comment %></p>
+            </div>
+            <div class="card-trip-pricing">
+              <h2><%= bookmark.movie.rating.round(1) %>/10</h2>
+            </div>
+          </div>
+          <img src="<%= bookmark.movie.poster_url %>">
+          <div class="text-center my-2">
+            <%= button_to "Remove",
+                  list_bookmark_path(@list, bookmark),
+                  method: :delete,
+                  form: { data: { turbo_confirm: "Remove this movie?" } },
+                  class: "btn btn-link text-danger p-0" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
